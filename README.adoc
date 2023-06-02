@@ -1,0 +1,58 @@
+= adminer
+:scripts: cjk
+:toc:
+:toc-title: 目录
+:toclevels: 4
+
+== 简介
+给adminer镜像添加支持连接oracle数据库
+
+== package中几个文件的下载地址
+https://www.oracle.com/database/technologies/instant-client/downloads.html
+
+== 编译并上传镜像
+
+[,shell]
+----
+docker buildx build --platform linux/arm64/v8,linux/amd64 -t nnzbz/adminer:latest . --push
+----
+
+== Swarm
+
+[,shell]
+----
+mkdir -p /usr/local/adminer
+vi /usr/local/adminer/stack.yml
+----
+
+[,yaml]
+----
+version: '3.9'
+services:
+  svr:
+    image: nnzbz/adminer
+    # ports:
+    #   - 8080:8080
+    environment:
+      # 最好使用此设定时区，其它镜像也可以使用
+      - TZ=CST-8
+    deploy:
+      placement:
+        constraints:
+          # 部署的节点指定是db角色的
+          - node.labels.role==web
+          #- node.hostname == web01
+    logging:
+      options:
+        max-size: 8m
+
+networks:
+  default:
+    external: true
+    name: rebue
+----
+
+[,shell]
+----
+docker stack deploy -c /usr/local/adminer/stack.yml adminer
+----
