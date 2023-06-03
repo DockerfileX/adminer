@@ -56,3 +56,9 @@ networks:
 ----
 docker stack deploy -c /usr/local/adminer/stack.yml adminer
 ----
+
+== 参考
+
+https://gist.github.com/eSkiSo/781269c79b4dd740e90fcc059c1985ae
+https://stackoverflow.com/questions/52308247/adminer-docker-for-oracle-database
+https://vfac.fr/blog/how-to-install-oracle-client-instant-oci8-on-linux
