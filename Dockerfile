@@ -1,4 +1,6 @@
-FROM --platform=${TARGETPLATFORM} adminer
+ARG VERSION
+
+FROM --platform=${TARGETPLATFORM} adminer:${VERSION}
 
 
 # ENV LD_LIBRARY_PATH /usr/local/instantclient_21_9
